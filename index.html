@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Process Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      #wrapper {
+        padding: 2.5rem 0;
+      }
+      .loader {
+        border: 2px solid #fff;
+        border-radius: 50%;
+        border-top: 2px solid #3498db;
+        width: 16px;
+        height: 16px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+      }
+
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <div class="container">
+        <button class="btn btn-primary" id="start">Start</button>
+        <button
+          class="btn btn-success float-right"
+          data-toggle="modal"
+          data-target="#addKeywordModal"
+          id="Add"
+        >
+          Add
+        </button>
+      </div>
+      <div class="container mt-4">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Page</th>
+              <th scope="col">Keyword</th>
+              <th scope="col">Email</th>
+              <th scope="col">Found Record</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="page-crawl">
+            <tr data-id="1">
+              <td>https://www.samsung.com/in/</td>
+              <td>Galaxy Z Fold3 5G, Apple</td>
+              <td>xyz@gmail.com</td>
+              <td>Not Scheduled</td>
+              <td><input type="checkbox" name="status" value="1" checked /></td>
+            </tr>
+            <tr data-id="1">
+              <td>https://www.onlinekhabar.com/</td>
+              <td>तयारी, प्रतिबन्ध, सबभन्दा, कैलाली</td>
+              <td>xyz@gmail.com,srijan@example.com</td>
+              <td>Not Scheduled</td>
+              <td><input type="checkbox" name="status" value="1" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal" tabindex="-1" role="dialog" id="addKeywordModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Page</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <!-- modal content -->
+            <div class="modal-body">
+              <form action="" id="addPageForm">
+                <div class="form-group">
+                  <label>Page url</label>
+                  <input
+                    type="text"
+                    name="url"
+                    class="form-control"
+                    id="page_url"
+                    placeholder="https://example.com"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Keyword</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="page_keywords"
+                    placeholder="cake, pizza, banana"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Keyword</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="page_mail"
+                    placeholder="jonathan@example.com, marry@example.com"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" name="page_status" id="page_status" /> Active
+                  </label>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-success" id="add_page">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- modal content -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function ($) {
+        function getResults(url, keywords, email, row) {
+          return $.ajax({
+            url: "./index.php",
+            type: "POST",
+            data: {
+              url: url,
+              keywords: keywords,
+              email: email,
+            },
+          });
+        }
+
+        // start the page search
+        $("#start").click(function () {
+          $("#page-crawl tr").each(async function (i, tr) {
+            var row = $(tr);
+            var url = row.find("td:eq(0)").text();
+            var keywords = row.find("td:eq(1)").text();
+            var email = row.find("td:eq(2)").text();
+            var processed = row.find("td:eq(3)");
+            var status_row = row.find("td:eq(4)");
+            var row_id = row.data("id");
+
+            if (!status_row.find("input:checked").length) {
+              return;
+            }
+
+            processed.empty();
+            processed.append($("<div />").addClass("loader"));
+            var results = await getResults(url, keywords, email, row);
+            processed.empty();
+            if (results) {
+              processed.text(results.join(","));
+            }
+          });
+        });
+
+        //Add a new row to table
+        $("#addPageForm").submit(function (e) {
+          e.preventDefault();
+          var page_url = $("#page_url");
+          var page_keywords = $("#page_keywords");
+          var page_status = $("#page_status");
+          var page_mail = $("#page_mail");
+          var is_checked = "";
+
+          if (page_status.is(":checked")) {
+            is_checked = "checked";
+          }
+
+          var row = `
+                <tr>
+                  <td>${page_url.val()}</td>
+                  <td>${page_keywords.val()}</td>
+                  <td>${page_mail.val()}</td>
+                  <td>Not Scheduled</td>
+                  <td><input type="checkbox" name="status" value="1" ${is_checked}></td>
+                </tr>
+            `;
+
+          page_url.val("");
+          page_keywords.val("");
+          page_status.val("");
+          page_mail.val("");
+          $('#addKeywordModal').modal('hide');
+
+          $("#page-crawl").prepend(row);
+        });
+      })(jQuery);
+    </script>
+  </body>
+</html>
