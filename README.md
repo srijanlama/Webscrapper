@@ -4,15 +4,7 @@ php script for webscrapper along with php mailer
 ### Folder Structure
 
     
-    ├── database                      # Database for crud operation on keywords, pages and mail recipients
-    ├── pages                         # pages offline pages, if you want to search put the pages there and provide file path
-    ├── PHPMailer                     # PHPMailer mail library
-    ├── index.html                    # Index.html main file to list datatable
-    ├── index.php                     # ndex.php main backend to handle incoming request
-    ├── KeywordGrabber.php            # KeywordGrabber class responsible for your task
-    ├── sample_html_dom.php           # Simple_html_dom helper parser for crawling
-    ├── LICENSE
-    └── README.md
+
     
 Quick Setup
         
