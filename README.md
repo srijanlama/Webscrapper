@@ -1,6 +1,9 @@
 <!-- # Webscrapper
 php script for webscrapper along with php mailer
 
+###demo gif
+![document](https://user-images.githubusercontent.com/42295335/135655637-9a8e97c0-618e-4c00-846a-0765b0d31392.gif)
+
 ### Folder Structure
 
         ├── database                      # Database for crud operation on keywords, pages and mail recipients
@@ -58,6 +61,11 @@ Webscrapper
 ============================
 
 > Starter Public Php script for Webscrapper along with php mailer
+
+### Demo Gif 
+![document](https://user-images.githubusercontent.com/42295335/135655790-d5dca4da-b98c-448d-93a9-2d4be84e1e01.gif)
+
+
 
 ### Folder Structure
 
