@@ -111,6 +111,6 @@ Webscrapper
  
  ``` 
  #Assumption 
- >PHP is installed
- >MySQL is installed
+ >PHP is installed <br/>
+ >MySQL is installed <br/>
  >Has SMTP credential for mailing
