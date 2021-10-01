@@ -118,7 +118,7 @@ Webscrapper
  php -S localhost:3000
  
  ``` 
- ###Assumption 
+ ### Assumption 
  >PHP is installed <br/>
  >MySQL is installed <br/>
  >Has SMTP credential for mailing
